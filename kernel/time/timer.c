@@ -1985,6 +1985,7 @@ static void migrate_timer_list(struct timer_base *new_base, struct hlist_head *h
 		timer = hlist_entry(head->first, struct timer_list, entry);
 		detach_timer(timer, false);
 		timer->flags = (timer->flags & ~TIMER_BASEMASK) | cpu;
+		debug_timer_activate(timer);
 		internal_add_timer(new_base, timer);
 	}
 }
@@ -2127,6 +2128,8 @@ void __sched usleep_range_state(unsigned long min, unsigned long max,
 			break;
 	}
 }
+
+EXPORT_SYMBOL_GPL(usleep_range_state);
 
 /**
  * usleep_range - Sleep for an approximate time
